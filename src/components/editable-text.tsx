@@ -106,9 +106,7 @@ export const EditableText: React.FC<Props> = ({
 		setText(value);
 	};
 
-	const _save = async (e: React.MouseEvent) => {
-		e.stopPropagation();
-
+	const _save = async () => {
 		if (loading) {
 			return;
 		}
@@ -144,6 +142,20 @@ export const EditableText: React.FC<Props> = ({
 	const handleKeyDown = (e: React.KeyboardEvent) => {
 		if (e.key === 'Escape') {
 			cancel();
+		}
+
+		if (e.key === 'Enter') {
+			if (!textArea) {
+				_save();
+				return;
+			}
+
+			if (e.metaKey || e.ctrlKey) {
+				_save();
+				return;
+			}
+
+			return;
 		}
 	};
 
