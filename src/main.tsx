@@ -9,6 +9,7 @@ import {
 	ProjectsView,
 	RegisterView,
 	StoryDetailsView,
+	CreateTaskView,
 } from './views';
 import { CurrentUserProvider, FirebaseProvider, MessageProvider, ThemeProvider } from './providers';
 
@@ -35,6 +36,7 @@ ReactDOM.createRoot(root).render(
 								<Route path="/projects/:projectId" element={<ProjectDetailsView />} />
 								<Route path="/projects/:projectId/stories/new" element={<CreateStoryView />} />
 								<Route path="/projects/:projectId/stories/:storyId" element={<StoryDetailsView />} />
+								<Route path="/projects/:projectId/stories/:storyId/tasks/new" element={<CreateTaskView />} />
 							</Routes>
 						</CurrentUserProvider>
 					</FirebaseProvider>
