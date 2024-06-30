@@ -16,6 +16,9 @@ const Wrapper = styled.div`
 
 		&:first-child {
 			flex: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
 		}
 
 		&:last-child {

@@ -6,6 +6,9 @@ import { useEditProjectForm } from './use-edit-project-form';
 
 const Wrapper = styled.div`
 	padding: 20px;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
 `;
 
 interface EditProjectFormProps {
