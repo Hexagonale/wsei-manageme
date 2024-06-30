@@ -1,5 +1,5 @@
 import { Project } from '../types/project.entity';
-import { collection, doc, setDoc, getDoc, deleteDoc, getDocs, Firestore } from 'firebase/firestore';
+import { collection, doc, setDoc, getDoc, deleteDoc, getDocs, Firestore, updateDoc } from 'firebase/firestore';
 
 export interface ProjectAPI {
 	create(project: Project): Promise<Project>;
@@ -31,11 +31,11 @@ export class ProjectsRepository implements ProjectAPI {
 		return projectSnap.data() as Project;
 	}
 
-	async update(project: Project): Promise<Project> {
+	async update(project: Pick<Project, 'id'> & Partial<Project>): Promise<Project> {
 		const projectDoc = doc(this.collection, project.id);
-		await setDoc(projectDoc, project);
+		await updateDoc(projectDoc, project);
 
-		return project;
+		return this.read(project.id);
 	}
 
 	async delete(id: string): Promise<void> {

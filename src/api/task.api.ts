@@ -1,5 +1,16 @@
 import { Task } from '../types/task.entity';
-import { Firestore, collection, doc, getDoc, setDoc, deleteDoc, getDocs, query, where } from 'firebase/firestore';
+import {
+	Firestore,
+	collection,
+	doc,
+	getDoc,
+	setDoc,
+	deleteDoc,
+	getDocs,
+	query,
+	where,
+	updateDoc,
+} from 'firebase/firestore';
 
 export interface TaskAPI {
 	create(task: Task): Promise<Task>;
@@ -31,11 +42,11 @@ export class TasksRepository implements TaskAPI {
 		return taskSnap.data() as Task;
 	}
 
-	async update(task: Task): Promise<Task> {
+	async update(task: Pick<Task, 'id'> & Partial<Task>): Promise<Task> {
 		const taskDoc = doc(this.collection, task.id);
-		await setDoc(taskDoc, task);
+		await updateDoc(taskDoc, task);
 
-		return task;
+		return this.read(task.id);
 	}
 
 	async delete(id: string): Promise<void> {

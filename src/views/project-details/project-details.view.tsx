@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { useProjectDetails } from './use-project-details';
 import { ViewWithHeader } from '../../components';
 import { EditProjectForm } from './edit-project-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Story } from '../../types';
 
 const Details = styled.div`
 	max-width: 600px;
@@ -34,15 +35,22 @@ const StoriesContainer = styled.div`
 `;
 
 const StoryCard = styled(Card)`
+	cursor: pointer;
+
 	.ant-card-body {
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
 		width: 300px;
+
+		> p {
+			white-space: pre;
+		}
 	}
 `;
 
 export const ProjectDetailsView: React.FC = () => {
+	const navigate = useNavigate();
 	const { project, stories, fetchProject } = useProjectDetails();
 
 	if (!project || !stories) {
@@ -57,6 +65,10 @@ export const ProjectDetailsView: React.FC = () => {
 		todo: stories.filter((story) => story.status === 'todo'),
 		doing: stories.filter((story) => story.status === 'doing'),
 		done: stories.filter((story) => story.status === 'done'),
+	};
+
+	const openStory = (story: Story) => {
+		navigate(`/projects/${project.id}/stories/${story.id}`);
 	};
 
 	return (
@@ -74,7 +86,7 @@ export const ProjectDetailsView: React.FC = () => {
 					<Typography.Title level={2}>Todo</Typography.Title>
 					<div>
 						{categorizedStories.todo.map((story) => (
-							<StoryCard key={story.id} title={story.name}>
+							<StoryCard key={story.id} title={story.name} onClick={() => openStory(story)}>
 								<p>{story.description}</p>
 							</StoryCard>
 						))}
@@ -84,7 +96,7 @@ export const ProjectDetailsView: React.FC = () => {
 					<Typography.Title level={2}>Doing</Typography.Title>
 					<div>
 						{categorizedStories.doing.map((story) => (
-							<StoryCard key={story.id} title={story.name}>
+							<StoryCard key={story.id} title={story.name} onClick={() => openStory(story)}>
 								<p>{story.description}</p>
 							</StoryCard>
 						))}
@@ -94,7 +106,7 @@ export const ProjectDetailsView: React.FC = () => {
 					<Typography.Title level={2}>Done</Typography.Title>
 					<div>
 						{categorizedStories.done.map((story) => (
-							<StoryCard key={story.id} title={story.name}>
+							<StoryCard key={story.id} title={story.name} onClick={() => openStory(story)}>
 								<p>{story.description}</p>
 							</StoryCard>
 						))}

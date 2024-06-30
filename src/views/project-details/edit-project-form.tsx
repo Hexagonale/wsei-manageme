@@ -8,12 +8,12 @@ const Wrapper = styled.div`
 	padding: 20px;
 `;
 
-interface ProjectDetailsProps {
+interface EditProjectFormProps {
 	project: Project;
 	fetchProject: () => Promise<void>;
 }
 
-export const EditProjectForm: React.FC<ProjectDetailsProps> = ({ project, fetchProject }) => {
+export const EditProjectForm: React.FC<EditProjectFormProps> = ({ project, fetchProject }) => {
 	const { handleSave } = useEditProjectForm({
 		project,
 		fetchProject,

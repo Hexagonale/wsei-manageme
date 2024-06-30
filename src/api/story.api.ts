@@ -1,5 +1,16 @@
 import { Story } from '../types/story.entity';
-import { Firestore, collection, doc, getDoc, setDoc, deleteDoc, getDocs, query, where } from 'firebase/firestore';
+import {
+	Firestore,
+	collection,
+	doc,
+	getDoc,
+	setDoc,
+	deleteDoc,
+	getDocs,
+	query,
+	where,
+	updateDoc,
+} from 'firebase/firestore';
 
 export interface StoryAPI {
 	create(story: Story): Promise<Story>;
@@ -31,11 +42,11 @@ export class StoriesRepository implements StoryAPI {
 		return storySnap.data() as Story;
 	}
 
-	async update(story: Story): Promise<Story> {
+	async update(story: Pick<Story, 'id'> & Partial<Story>): Promise<Story> {
 		const storyDoc = doc(this.collection, story.id);
-		await setDoc(storyDoc, story);
+		await updateDoc(storyDoc, story);
 
-		return story;
+		return this.read(story.id);
 	}
 
 	async delete(id: string): Promise<void> {

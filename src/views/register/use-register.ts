@@ -1,10 +1,11 @@
 import { message } from 'antd';
-import { AuthService } from '../../api';
+import { AuthService, UsersRepository } from '../../api';
 import { useFirebase } from '../../providers/firebase.provider';
 
 export const useRegister = () => {
 	const { auth, firestore } = useFirebase();
-	const authService = new AuthService(auth, firestore);
+	const usersRepository = new UsersRepository(firestore);
+	const authService = new AuthService(auth, usersRepository);
 
 	const register = async (firstName: string, lastName: string, email: string, password: string) => {
 		try {

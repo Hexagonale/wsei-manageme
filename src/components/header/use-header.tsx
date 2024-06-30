@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AuthService, PreferencesRepository, ProjectsRepository } from '../../api';
+import { AuthService, PreferencesRepository, ProjectsRepository, UsersRepository } from '../../api';
 import { useCurrentUser, useFirebase } from '../../providers';
 import { Project } from '../../types';
 import { message } from 'antd';
@@ -11,7 +11,8 @@ export const useHeader = () => {
 	const navigate = useNavigate();
 	const { auth, firestore } = useFirebase();
 	const user = useCurrentUser();
-	const authService = new AuthService(auth, firestore);
+	const usersRepository = new UsersRepository(firestore);
+	const authService = new AuthService(auth, usersRepository);
 	const preferencesRepository = new PreferencesRepository(firestore);
 	const projectsRepository = new ProjectsRepository(firestore);
 

@@ -1,12 +1,13 @@
 import { message } from 'antd';
-import { AuthService, PreferencesRepository } from '../../api';
+import { AuthService, PreferencesRepository, UsersRepository } from '../../api';
 import { useFirebase } from '../../providers/firebase.provider';
 import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
 	const navigate = useNavigate();
 	const { auth, firestore } = useFirebase();
-	const authService = new AuthService(auth, firestore);
+	const usersRepository = new UsersRepository(firestore);
+	const authService = new AuthService(auth, usersRepository);
 	const preferencesRepository = new PreferencesRepository(firestore);
 
 	const login = async (email: string, password: string) => {
