@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, Skeleton, Typography } from 'antd';
 import styled from 'styled-components';
 import { useStoryDetails } from './use-story-details';
-import { ViewWithHeader } from '../../components';
+import { Breadcrumbs, ViewWithHeader } from '../../components';
 import { EditStoryForm } from './edit-story-form';
 import { Link } from 'react-router-dom';
 
@@ -66,6 +66,7 @@ export const StoryDetailsView: React.FC = () => {
 
 	return (
 		<ViewWithHeader>
+			<Breadcrumbs />
 			<Details>
 				<EditStoryForm story={story} fetchStory={fetchStory} />
 				<div className="actions">

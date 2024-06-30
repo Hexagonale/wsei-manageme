@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Card, Skeleton, Typography } from 'antd';
 import styled from 'styled-components';
 import { useProjectDetails } from './use-project-details';
-import { ViewWithHeader } from '../../components';
+import { Breadcrumbs, ViewWithHeader } from '../../components';
 import { EditProjectForm } from './edit-project-form';
 import { Link, useNavigate } from 'react-router-dom';
 import { Story } from '../../types';
@@ -52,7 +52,6 @@ const StoryCard = styled(Card)`
 export const ProjectDetailsView: React.FC = () => {
 	const navigate = useNavigate();
 	const { project, stories, fetchProject } = useProjectDetails();
-
 	if (!project || !stories) {
 		return (
 			<ViewWithHeader>
@@ -73,6 +72,7 @@ export const ProjectDetailsView: React.FC = () => {
 
 	return (
 		<ViewWithHeader>
+			<Breadcrumbs />
 			<Details>
 				<EditProjectForm project={project} fetchProject={fetchProject} />
 				<div className="actions">
