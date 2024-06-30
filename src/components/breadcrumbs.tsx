@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Breadcrumb } from 'antd';
+import { BreadcrumbItemType } from 'antd/es/breadcrumb/Breadcrumb';
 import { Project, Story, Task } from '../types';
 import { useFirebase } from '../providers';
 import { ProjectsRepository, StoriesRepository, TasksRepository } from '../api';
@@ -8,6 +9,7 @@ import { ProjectsRepository, StoriesRepository, TasksRepository } from '../api';
 export const Breadcrumbs: React.FC = () => {
 	const { projectId, storyId, taskId } = useParams<{ projectId: string; storyId: string; taskId: string }>();
 
+	const navigate = useNavigate();
 	const { firestore } = useFirebase();
 	const projectsRepository = new ProjectsRepository(firestore);
 	const storiesRepository = new StoriesRepository(firestore);
@@ -71,31 +73,43 @@ export const Breadcrumbs: React.FC = () => {
 		}
 	};
 
-	const breadcrumbs: React.ReactNode[] = [];
+	const items: BreadcrumbItemType[] = [];
 
 	if (projectId && project) {
-		breadcrumbs.push(
-			<Breadcrumb.Item key="project">
-				<Link to={`/projects/${projectId}`}>{project.name}</Link>
-			</Breadcrumb.Item>
-		);
+		items.push({
+			title: project.name,
+			href: '',
+			onClick: (e) => {
+				e.preventDefault();
+
+				navigate(`/projects/${projectId}`);
+			},
+		});
 	}
 
 	if (projectId && project && storyId && story) {
-		breadcrumbs.push(
-			<Breadcrumb.Item key="project">
-				<Link to={`/projects/${projectId}/stories/${storyId}`}>{story.name}</Link>
-			</Breadcrumb.Item>
-		);
+		items.push({
+			title: story.name,
+			href: '',
+			onClick: (e) => {
+				e.preventDefault();
+
+				navigate(`/projects/${projectId}/stories/${storyId}`);
+			},
+		});
 	}
 
 	if (projectId && project && storyId && story && taskId && task) {
-		breadcrumbs.push(
-			<Breadcrumb.Item key="project">
-				<Link to={`/projects/${projectId}/stories/${storyId}/tasks/${taskId}`}>{task.name}</Link>
-			</Breadcrumb.Item>
-		);
+		items.push({
+			title: task.name,
+			href: '',
+			onClick: (e) => {
+				e.preventDefault();
+
+				navigate(`/projects/${projectId}/stories/${storyId}/tasks/${taskId}`);
+			},
+		});
 	}
 
-	return <Breadcrumb>{breadcrumbs}</Breadcrumb>;
+	return <Breadcrumb items={items}></Breadcrumb>;
 };
