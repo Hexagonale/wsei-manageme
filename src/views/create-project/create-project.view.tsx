@@ -1,10 +1,11 @@
 import React from 'react';
-import { styled } from 'styled-components';
-import { Button, Card, Form, Input, message } from 'antd';
-import { ProjectOutlined } from '@ant-design/icons';
-import { useCreateProject } from './use-create-project';
 import { useNavigate } from 'react-router-dom';
+import { Button, Card, Form, Input } from 'antd';
+import { ProjectOutlined } from '@ant-design/icons';
+import { styled } from 'styled-components';
+import { useCreateProject } from './use-create-project';
 import { ViewWithHeader } from '../../components';
+import { useMessage } from '../../providers';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -37,6 +38,7 @@ const SubmitButton = styled(Button)`
 `;
 
 export const CreateProjectView: React.FC = () => {
+	const message = useMessage();
 	const navigate = useNavigate();
 	const [loading, setLoading] = React.useState(false);
 	const { createProject } = useCreateProject();

@@ -1,9 +1,9 @@
-import { message } from 'antd';
 import { PreferencesRepository, ProjectsRepository } from '../../api';
 import { useFirebase } from '../../providers/firebase.provider';
-import { useCurrentUser } from '../../providers';
+import { useCurrentUser, useMessage } from '../../providers';
 
 export const useCreateProject = () => {
+	const message = useMessage();
 	const user = useCurrentUser();
 	const { firestore } = useFirebase();
 	const projectsRepository = new ProjectsRepository(firestore);

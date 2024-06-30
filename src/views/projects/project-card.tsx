@@ -1,11 +1,12 @@
 import { styled } from 'styled-components';
 import { Project } from '../../types';
-import { Button, Card, Popconfirm, Space, Tooltip, message } from 'antd';
+import { Button, Card, Popconfirm, Space, Tooltip } from 'antd';
 import { green, red } from '@ant-design/colors';
 import { useProjectCard } from './use-project-card';
 import { useState } from 'react';
 import { CheckCircleOutlined, InfoCircleFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import { useMessage } from '../../providers';
 
 const StyledCard = styled(Card)`
 	.ant-card-body {
@@ -39,6 +40,7 @@ interface Props {
 }
 
 export const ProjectCard: React.FC<Props> = ({ current, project, fetchProjects }) => {
+	const message = useMessage();
 	const [loading, setLoading] = useState(false);
 	const { selectProject, deleteProject } = useProjectCard({ fetch: fetchProjects });
 

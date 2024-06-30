@@ -1,12 +1,12 @@
-import { message } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom';
 import { StoriesRepository } from '../../api';
-import { useCurrentUser, useFirebase } from '../../providers';
+import { useCurrentUser, useFirebase, useMessage } from '../../providers';
 import { Story } from '../../types';
 
 export const useCreateStory = () => {
 	const { projectId } = useParams<{ projectId: string }>();
 
+	const message = useMessage();
 	const navigate = useNavigate();
 	const user = useCurrentUser();
 	const { firestore } = useFirebase();

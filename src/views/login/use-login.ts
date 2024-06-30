@@ -1,9 +1,10 @@
-import { message } from 'antd';
 import { AuthService, PreferencesRepository, UsersRepository } from '../../api';
+import { useMessage } from '../../providers';
 import { useFirebase } from '../../providers/firebase.provider';
 import { useNavigate } from 'react-router-dom';
 
 export const useLogin = () => {
+	const message = useMessage();
 	const navigate = useNavigate();
 	const { auth, firestore } = useFirebase();
 	const usersRepository = new UsersRepository(firestore);

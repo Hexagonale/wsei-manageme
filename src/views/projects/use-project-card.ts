@@ -1,7 +1,6 @@
-import { message } from 'antd';
 import { PreferencesRepository, ProjectsRepository } from '../../api';
 import { useFirebase } from '../../providers/firebase.provider';
-import { useCurrentUser } from '../../providers';
+import { useCurrentUser, useMessage } from '../../providers';
 
 interface Props {
 	fetch: () => Promise<void>;
@@ -9,6 +8,7 @@ interface Props {
 
 export const useProjectCard = ({ fetch }: Props) => {
 	const { firestore } = useFirebase();
+	const message = useMessage();
 	const user = useCurrentUser();
 	const preferencesRepository = new PreferencesRepository(firestore);
 	const projectsRepository = new ProjectsRepository(firestore);

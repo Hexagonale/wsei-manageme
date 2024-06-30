@@ -10,7 +10,7 @@ import {
 	RegisterView,
 	StoryDetailsView,
 } from './views';
-import { CurrentUserProvider, FirebaseProvider, ThemeProvider } from './providers';
+import { CurrentUserProvider, FirebaseProvider, MessageProvider, ThemeProvider } from './providers';
 
 import './index.scss';
 
@@ -22,22 +22,24 @@ if (!root) {
 ReactDOM.createRoot(root).render(
 	<React.StrictMode>
 		<ThemeProvider>
-			<Router>
-				<FirebaseProvider>
-					<CurrentUserProvider>
-						<Routes>
-							<Route path="/" element={<Navigate to="/login" replace />} />
-							<Route path="login" element={<LoginView />} />
-							<Route path="register" element={<RegisterView />} />
-							<Route path="projects" element={<ProjectsView />} />
-							<Route path="projects/new" element={<CreateProjectView />} />
-							<Route path="/projects/:projectId" element={<ProjectDetailsView />} />
-							<Route path="/projects/:projectId/stories/new" element={<CreateStoryView />} />
-							<Route path="/projects/:projectId/stories/:storyId" element={<StoryDetailsView />} />
-						</Routes>
-					</CurrentUserProvider>
-				</FirebaseProvider>
-			</Router>
+			<MessageProvider>
+				<Router>
+					<FirebaseProvider>
+						<CurrentUserProvider>
+							<Routes>
+								<Route path="/" element={<Navigate to="/login" replace />} />
+								<Route path="login" element={<LoginView />} />
+								<Route path="register" element={<RegisterView />} />
+								<Route path="projects" element={<ProjectsView />} />
+								<Route path="projects/new" element={<CreateProjectView />} />
+								<Route path="/projects/:projectId" element={<ProjectDetailsView />} />
+								<Route path="/projects/:projectId/stories/new" element={<CreateStoryView />} />
+								<Route path="/projects/:projectId/stories/:storyId" element={<StoryDetailsView />} />
+							</Routes>
+						</CurrentUserProvider>
+					</FirebaseProvider>
+				</Router>
+			</MessageProvider>
 		</ThemeProvider>
 	</React.StrictMode>
 );

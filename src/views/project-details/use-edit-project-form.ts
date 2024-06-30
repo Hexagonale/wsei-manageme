@@ -1,6 +1,5 @@
-import { message } from 'antd';
 import { ProjectsRepository } from '../../api';
-import { useFirebase } from '../../providers';
+import { useFirebase, useMessage } from '../../providers';
 import { Project } from '../../types';
 
 export const useEditProjectForm = ({
@@ -10,6 +9,7 @@ export const useEditProjectForm = ({
 	project: Project;
 	fetchProject: () => Promise<void>;
 }) => {
+	const message = useMessage();
 	const { firestore } = useFirebase();
 	const projectsRepository = new ProjectsRepository(firestore);
 

@@ -1,10 +1,10 @@
-import { message } from 'antd';
 import { StoriesRepository, UsersRepository } from '../../api';
-import { useFirebase } from '../../providers';
+import { useFirebase, useMessage } from '../../providers';
 import { Story, User } from '../../types';
 import { useEffect, useState } from 'react';
 
 export const useEditStoryForm = ({ story, fetchStory }: { story: Story; fetchStory: () => Promise<void> }) => {
+	const message = useMessage();
 	const { firestore } = useFirebase();
 	const storiesRepository = new StoriesRepository(firestore);
 	const usersRepository = new UsersRepository(firestore);

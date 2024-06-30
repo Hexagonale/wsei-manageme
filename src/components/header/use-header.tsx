@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from 'react';
-import { AuthService, PreferencesRepository, ProjectsRepository, UsersRepository } from '../../api';
-import { useCurrentUser, useFirebase } from '../../providers';
-import { Project } from '../../types';
-import { message } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { AuthService, PreferencesRepository, ProjectsRepository, UsersRepository } from '../../api';
+import { useCurrentUser, useFirebase, useMessage } from '../../providers';
+import { Project } from '../../types';
 
 export const NOT_YET_FETCHED = 'NOT_YET_FETCHED';
 
 export const useHeader = () => {
+	const message = useMessage();
 	const navigate = useNavigate();
 	const { auth, firestore } = useFirebase();
 	const user = useCurrentUser();
@@ -70,9 +70,9 @@ export const useHeader = () => {
 			await fetchProjects();
 			await fetchCurrentProjectId();
 
-			navigate(`/projects/${projectId}`);
-
 			message.success('Project selected');
+
+			navigate(`/projects/${projectId}`);
 		} catch (error) {
 			console.error(error);
 

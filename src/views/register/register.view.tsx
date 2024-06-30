@@ -1,9 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FormValues, RegisterForm } from './register-form';
+import { Card } from 'antd';
 import styled from 'styled-components';
+import { useMessage } from '../../providers';
+import { FormValues, RegisterForm } from './register-form';
 import { useRegister } from './use-register';
-import { Card, message } from 'antd';
 
 const Wrapper = styled.div`
 	display: flex;
@@ -24,6 +25,7 @@ const Wrapper = styled.div`
 `;
 
 export const RegisterView: React.FC = () => {
+	const message = useMessage();
 	const navigate = useNavigate();
 	const { register } = useRegister();
 

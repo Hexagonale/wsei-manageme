@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useFirebase } from '../../providers';
+import { useFirebase, useMessage } from '../../providers';
 import { ProjectsRepository, StoriesRepository } from '../../api';
 import { Project, Story } from '../../types';
-import { message } from 'antd';
 
 export const useProjectDetails = () => {
 	const { projectId } = useParams<{ projectId: string }>();
+	const message = useMessage();
 	const { firestore } = useFirebase();
 	const projectsRepository = new ProjectsRepository(firestore);
 	const storiesRepository = new StoriesRepository(firestore);

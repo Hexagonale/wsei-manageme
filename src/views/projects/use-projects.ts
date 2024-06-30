@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import { PreferencesRepository, ProjectsRepository } from '../../api';
 import { useFirebase } from '../../providers/firebase.provider';
 import { Project } from '../../types';
-import { message } from 'antd';
-import { useCurrentUser } from '../../providers';
+import { useCurrentUser, useMessage } from '../../providers';
 
 export const NOT_YET_FETCHED = 'NOT_YET_FETCHED';
 
 export const useProjects = () => {
 	const { firestore } = useFirebase();
+	const message = useMessage();
 	const user = useCurrentUser();
 	const preferencesRepository = new PreferencesRepository(firestore);
 	const projectsRepository = new ProjectsRepository(firestore);
