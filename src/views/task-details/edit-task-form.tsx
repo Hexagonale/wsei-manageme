@@ -80,10 +80,12 @@ export const EditTaskForm: React.FC<EditTaskFormProps> = ({ task, fetchTask }) =
 					<Select
 						value={task.assignedUserId}
 						onSelect={(assignedUserId) => handleSave({ assignedUserId })}
-						options={users.map((user) => ({
-							label: `${user.firstName} ${user.lastName}`,
-							value: user.id,
-						}))}
+						options={users
+							.filter((user) => user.role !== 'admin')
+							.map((user) => ({
+								label: `${user.firstName} ${user.lastName}`,
+								value: user.id,
+							}))}
 					/>
 				</div>
 				<div>
