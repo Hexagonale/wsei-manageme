@@ -11,6 +11,7 @@ import {
 	where,
 	updateDoc,
 } from 'firebase/firestore';
+import { removeUndefinedKeys } from '../utils';
 
 export interface TaskAPI {
 	create(task: Task): Promise<Task>;
@@ -43,6 +44,8 @@ export class TasksRepository implements TaskAPI {
 	}
 
 	async update(task: Pick<Task, 'id'> & Partial<Task>): Promise<Task> {
+		removeUndefinedKeys(task);
+
 		const taskDoc = doc(this.collection, task.id);
 		await updateDoc(taskDoc, task);
 

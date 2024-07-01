@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { Story } from '../../types';
 import { EditableText } from '../../components';
 import { useEditStoryForm } from './use-edit-story-form';
-import { Select, Skeleton, Typography } from 'antd';
+import { Button, Select, Skeleton, Typography } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
+import { formatDateTime } from '../../utils';
 
 const Wrapper = styled.div`
 	padding: 16px;
@@ -40,7 +42,7 @@ interface EditStoryFormProps {
 }
 
 export const EditStoryForm: React.FC<EditStoryFormProps> = ({ story, fetchStory }) => {
-	const { users, handleSave } = useEditStoryForm({
+	const { users, handleSave, handleDelete } = useEditStoryForm({
 		story,
 		fetchStory,
 	});
@@ -82,6 +84,15 @@ export const EditStoryForm: React.FC<EditStoryFormProps> = ({ story, fetchStory 
 							value: user.id,
 						}))}
 					/>
+				</div>
+				<div>
+					<Typography.Text strong>Creation Date</Typography.Text>
+					<Typography.Text>{formatDateTime(story.creationDate)}</Typography.Text>
+				</div>
+				<div>
+					<Button type="primary" danger onClick={handleDelete}>
+						<DeleteOutlined /> Delete
+					</Button>
 				</div>
 			</div>
 		</Wrapper>

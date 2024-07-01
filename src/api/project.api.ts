@@ -1,5 +1,6 @@
 import { Project } from '../types/project.entity';
 import { collection, doc, setDoc, getDoc, deleteDoc, getDocs, Firestore, updateDoc } from 'firebase/firestore';
+import { removeUndefinedKeys } from '../utils';
 
 export interface ProjectAPI {
 	create(project: Project): Promise<Project>;
@@ -32,6 +33,8 @@ export class ProjectsRepository implements ProjectAPI {
 	}
 
 	async update(project: Pick<Project, 'id'> & Partial<Project>): Promise<Project> {
+		removeUndefinedKeys(project);
+
 		const projectDoc = doc(this.collection, project.id);
 		await updateDoc(projectDoc, project);
 

@@ -11,6 +11,7 @@ import {
 	where,
 	updateDoc,
 } from 'firebase/firestore';
+import { removeUndefinedKeys } from '../utils';
 
 export interface StoryAPI {
 	create(story: Story): Promise<Story>;
@@ -43,6 +44,8 @@ export class StoriesRepository implements StoryAPI {
 	}
 
 	async update(story: Pick<Story, 'id'> & Partial<Story>): Promise<Story> {
+		removeUndefinedKeys(story);
+
 		const storyDoc = doc(this.collection, story.id);
 		await updateDoc(storyDoc, story);
 

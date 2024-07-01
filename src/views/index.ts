@@ -6,3 +6,4 @@ export * from './login/login.view';
 export * from './projects/projects.view';
 export * from './register/register.view';
 export * from './story-details/story-details.view';
+export * from './task-details/task-details.view';

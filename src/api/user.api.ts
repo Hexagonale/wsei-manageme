@@ -1,5 +1,6 @@
 import { User } from '../types/user.entity';
 import { collection, doc, setDoc, getDoc, deleteDoc, getDocs, Firestore } from 'firebase/firestore';
+import { removeUndefinedKeys } from '../utils';
 
 export interface UserAPI {
 	create(user: User): Promise<User>;
@@ -32,6 +33,8 @@ export class UsersRepository implements UserAPI {
 	}
 
 	async update(user: Pick<User, 'id'> & Partial<User>): Promise<User> {
+		removeUndefinedKeys(user);
+
 		const userDoc = doc(this.collection, user.id);
 		await setDoc(userDoc, user);
 

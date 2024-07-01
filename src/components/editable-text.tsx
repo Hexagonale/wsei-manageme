@@ -10,6 +10,8 @@ interface Props {
 	textArea?: boolean;
 	fontSize?: string;
 	fontWeight?: string;
+	type?: 'text' | 'number' | 'password';
+	suffix?: string;
 }
 
 interface WrapperProps {
@@ -77,6 +79,8 @@ export const EditableText: React.FC<Props> = ({
 	textArea = false,
 	fontSize = '16px',
 	fontWeight = '400',
+	type,
+	suffix,
 }) => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [text, setText] = useState(value);
@@ -178,6 +182,7 @@ export const EditableText: React.FC<Props> = ({
 					/>
 				) : (
 					<Input
+						type={type}
 						ref={inputRef}
 						value={text}
 						onChange={(e) => setText(e.target.value)}
@@ -200,7 +205,10 @@ export const EditableText: React.FC<Props> = ({
 	return (
 		<TextWrapper {...wrapperProps} onClick={startEditing}>
 			<Space>
-				<Typography.Text>{value}</Typography.Text>
+				<Typography.Text>
+					{value}
+					{suffix ?? ''}
+				</Typography.Text>
 			</Space>
 		</TextWrapper>
 	);

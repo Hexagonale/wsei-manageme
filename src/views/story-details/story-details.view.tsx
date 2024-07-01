@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import { useStoryDetails } from './use-story-details';
 import { Breadcrumbs, ViewWithHeader } from '../../components';
 import { EditStoryForm } from './edit-story-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Task } from '../../types';
 
 const Details = styled.div`
 	max-width: 800px;
@@ -49,6 +50,7 @@ const TaskCard = styled(Card)`
 `;
 
 export const StoryDetailsView: React.FC = () => {
+	const navigate = useNavigate();
 	const { story, tasks, fetchStory } = useStoryDetails();
 	if (!story || !tasks) {
 		return (
@@ -62,6 +64,10 @@ export const StoryDetailsView: React.FC = () => {
 		todo: tasks.filter((task) => task.status === 'todo'),
 		doing: tasks.filter((task) => task.status === 'doing'),
 		done: tasks.filter((task) => task.status === 'done'),
+	};
+
+	const openTask = (task: Task) => {
+		navigate(`/projects/${story.projectId}/stories/${story.id}/tasks/${task.id}`);
 	};
 
 	return (
@@ -80,7 +86,7 @@ export const StoryDetailsView: React.FC = () => {
 					<Typography.Title level={2}>Todo</Typography.Title>
 					<div>
 						{categorizedTasks.todo.map((task) => (
-							<TaskCard key={task.id} title={task.name}>
+							<TaskCard key={task.id} title={task.name} onClick={() => openTask(task)}>
 								<p>{task.description}</p>
 							</TaskCard>
 						))}
@@ -90,7 +96,7 @@ export const StoryDetailsView: React.FC = () => {
 					<Typography.Title level={2}>Doing</Typography.Title>
 					<div>
 						{categorizedTasks.doing.map((task) => (
-							<TaskCard key={task.id} title={task.name}>
+							<TaskCard key={task.id} title={task.name} onClick={() => openTask(task)}>
 								<p>{task.description}</p>
 							</TaskCard>
 						))}
@@ -100,7 +106,7 @@ export const StoryDetailsView: React.FC = () => {
 					<Typography.Title level={2}>Done</Typography.Title>
 					<div>
 						{categorizedTasks.done.map((task) => (
-							<TaskCard key={task.id} title={task.name}>
+							<TaskCard key={task.id} title={task.name} onClick={() => openTask(task)}>
 								<p>{task.description}</p>
 							</TaskCard>
 						))}
