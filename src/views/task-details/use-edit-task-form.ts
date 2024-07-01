@@ -61,6 +61,11 @@ export const useEditTaskForm = ({ task, fetchTask }: { task: Task; fetchTask: ()
 				}
 			}
 
+			let completionDate: string | undefined = undefined;
+			if (status === 'done' && task.status !== 'done') {
+				completionDate = new Date().toISOString();
+			}
+
 			await tasksRepository.update({
 				id: task.id,
 				name: name ?? task.name,
@@ -68,8 +73,9 @@ export const useEditTaskForm = ({ task, fetchTask }: { task: Task; fetchTask: ()
 				priority: priority ?? task.priority,
 				assignedUserId: assignedUserId ?? task.assignedUserId,
 				status: status ?? task.status,
-				startDate: startDate ?? task.startDate,
 				estimatedTime: estimatedTime ? parsedEstimatedTime : task.estimatedTime,
+				startDate: startDate ?? task.startDate,
+				completionDate: completionDate ?? task.completionDate,
 			});
 			await fetchTask();
 

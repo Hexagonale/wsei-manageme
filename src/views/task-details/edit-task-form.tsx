@@ -102,6 +102,10 @@ export const EditTaskForm: React.FC<EditTaskFormProps> = ({ task, fetchTask }) =
 					<Typography.Text>{task.startDate ? formatDateTime(task.startDate) : '-'}</Typography.Text>
 				</div>
 				<div>
+					<Typography.Text strong>Completion Date</Typography.Text>
+					<Typography.Text>{task.completionDate ? formatDateTime(task.completionDate) : '-'}</Typography.Text>
+				</div>
+				<div>
 					<Typography.Text strong>Creation Date</Typography.Text>
 					<Typography.Text>{formatDateTime(task.creationDate)}</Typography.Text>
 				</div>
