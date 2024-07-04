@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Layout, Dropdown, Button, MenuProps, Switch } from 'antd';
-import { DownOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Layout, Dropdown, Button, MenuProps, Switch, Badge } from 'antd';
+import { BellOutlined, DownOutlined, MoonOutlined, SunOutlined } from '@ant-design/icons';
 import { NOT_YET_FETCHED, useHeader } from './use-header';
-import { Theme, useThemeManager } from '../../providers';
+import { Theme, useNotifications, useThemeManager } from '../../providers';
+import styled from 'styled-components';
 
 const { Header: AntHeader } = Layout;
 
@@ -32,9 +32,23 @@ const StyledHeader = styled(AntHeader)`
 
 export const Header: React.FC = () => {
 	const navigate = useNavigate();
+	const notifications = useNotifications();
 	const { currentTheme, changeTheme } = useThemeManager();
 	const { projects, currentProjectId, currentProject, selectProject, logout } = useHeader();
 	const [loggingOut, setLoggingOut] = useState(false);
+	const [unreadCount, setUnreadCount] = useState(0);
+
+	useEffect(() => {
+		if (!notifications) {
+			return;
+		}
+
+		const subscription = notifications.unreadCount().subscribe((unread) => {
+			setUnreadCount(unread);
+		});
+
+		return () => subscription.unsubscribe();
+	}, [notifications]);
 
 	const handleProjectChange = (projectId: string) => {
 		selectProject(projectId);
@@ -87,6 +101,11 @@ export const Header: React.FC = () => {
 				<Button type="primary" onClick={handleLogout} loading={loggingOut}>
 					Logout
 				</Button>
+				<Link to="/notifications">
+					<Badge count={unreadCount}>
+						<BellOutlined style={{ fontSize: '1.5em' }} />
+					</Badge>
+				</Link>
 			</div>
 		</StyledHeader>
 	);

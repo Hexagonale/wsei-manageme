@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { TasksRepository, UsersRepository } from '../../api';
-import { useFirebase, useMessage } from '../../providers';
+import { useCurrentUser, useFirebase, useMessage, useNotifications } from '../../providers';
 import { Task, User } from '../../types';
 
 export const useEditTaskForm = ({ task, fetchTask }: { task: Task; fetchTask: () => Promise<void> }) => {
@@ -9,6 +9,8 @@ export const useEditTaskForm = ({ task, fetchTask }: { task: Task; fetchTask: ()
 
 	const navigate = useNavigate();
 	const message = useMessage();
+	const currentUser = useCurrentUser();
+	const notifications = useNotifications();
 	const { firestore } = useFirebase();
 	const tasksRepository = new TasksRepository(firestore);
 	const usersRepository = new UsersRepository(firestore);
@@ -64,6 +66,14 @@ export const useEditTaskForm = ({ task, fetchTask }: { task: Task; fetchTask: ()
 			let completionDate: string | undefined = undefined;
 			if (status === 'done' && task.status !== 'done') {
 				completionDate = new Date().toISOString();
+			}
+
+			if (assignedUserId && assignedUserId !== task.assignedUserId && currentUser?.uid === assignedUserId) {
+				notifications?.send({
+					title: 'Story assigned',
+					message: `You have been assigned to the task "${name ?? task.name}"`,
+					priority: 'high',
+				});
 			}
 
 			await tasksRepository.update({
