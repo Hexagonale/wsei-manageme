@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { StoriesRepository, UsersRepository } from '../../api';
-import { useCurrentUser, useFirebase, useMessage, useNotifications } from '../../providers';
+import { useFirebase, useMessage, useNotifications } from '../../providers';
 import { Story, User } from '../../types';
 import { useEffect, useState } from 'react';
 
@@ -9,7 +9,6 @@ export const useEditStoryForm = ({ story, fetchStory }: { story: Story; fetchSto
 
 	const navigate = useNavigate();
 	const message = useMessage();
-	const currentUser = useCurrentUser();
 	const notifications = useNotifications();
 	const { firestore } = useFirebase();
 	const storiesRepository = new StoriesRepository(firestore);
@@ -46,8 +45,8 @@ export const useEditStoryForm = ({ story, fetchStory }: { story: Story; fetchSto
 		ownerId?: Story['ownerId'];
 		status?: Story['status'];
 	}) => {
-		if (ownerId && ownerId !== story.ownerId && currentUser?.uid === ownerId) {
-			notifications?.send({
+		if (ownerId && ownerId !== story.ownerId) {
+			notifications?.send(ownerId, {
 				title: 'Story assigned',
 				message: `You have been assigned to the story "${name ?? story.name}"`,
 				priority: 'low',

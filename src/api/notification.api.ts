@@ -35,7 +35,7 @@ export class NotificationsService {
 		}
 	}
 
-	async send(notification: Omit<Notification, 'id' | 'read' | 'timestamp'>) {
+	async send(forUserId: string, notification: Omit<Notification, 'id' | 'read' | 'timestamp'>) {
 		const newNotification: Notification = {
 			...notification,
 			id: uuid.v4(),
@@ -43,10 +43,12 @@ export class NotificationsService {
 			read: false,
 		};
 
-		this.notificationsSubject.next([...this.notificationsSubject.value, newNotification]);
-		this.lastNotificationSubject.next(newNotification);
+		if (this.userId == forUserId) {
+			this.notificationsSubject.next([...this.notificationsSubject.value, newNotification]);
+			this.lastNotificationSubject.next(newNotification);
+		}
 
-		const document = doc(this.collection, this.userId);
+		const document = doc(this.collection, forUserId);
 		await setDoc(document, {
 			notifications: this.notificationsSubject.value,
 		});
